@@ -31,6 +31,7 @@ export const IdentificarEmocion: React.FC<IdentificarEmocionProps> = ({ onComple
   const [showFeedback, setShowFeedback] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const [feedbackText, setFeedbackText] = useState('');
+  const [waitingRetry, setWaitingRetry] = useState(false);
 
   const handleAnswer = (answer: string) => {
     const situation = situations[currentSituation];
@@ -41,15 +42,23 @@ export const IdentificarEmocion: React.FC<IdentificarEmocionProps> = ({ onComple
     setFeedbackText(correct ? situation.feedbackCorrect : situation.feedbackOther);
     setShowFeedback(true);
 
-    setTimeout(() => {
-      setShowFeedback(false);
-      setSelectedAnswer(null);
-      if (currentSituation < situations.length - 1) {
-        setCurrentSituation(currentSituation + 1);
-      } else {
-        onComplete();
-      }
-    }, 3500);
+    if (correct) {
+      setWaitingRetry(false);
+      setTimeout(() => {
+        setShowFeedback(false);
+        setSelectedAnswer(null);
+        if (currentSituation < situations.length - 1) {
+          setCurrentSituation(currentSituation + 1);
+        } else {
+          onComplete();
+        }
+      }, 3000);
+    } else {
+      setWaitingRetry(true);
+      setTimeout(() => {
+        setShowFeedback(false);
+      }, 3000);
+    }
   };
 
   const situation = situations[currentSituation];
@@ -80,12 +89,26 @@ export const IdentificarEmocion: React.FC<IdentificarEmocionProps> = ({ onComple
                 : 'neutral'
             }`}
             onClick={() => handleAnswer(emotion.toLowerCase())}
-            disabled={selectedAnswer !== null}
+            disabled={showFeedback && !waitingRetry}
           >
             {emotion}
           </button>
         ))}
       </div>
+
+      {waitingRetry && (
+        <button
+          className="menu-button"
+          style={{ marginTop: '15px', fontSize: '0.9rem', padding: '10px 20px' }}
+          onClick={() => {
+            setShowFeedback(false);
+            setSelectedAnswer(null);
+            setWaitingRetry(false);
+          }}
+        >
+          Intentar de nuevo
+        </button>
+      )}
 
       {showFeedback && (
         <div className="feedback-text" style={{

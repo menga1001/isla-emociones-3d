@@ -7,6 +7,7 @@ interface EstrategiaBajaProps {
 export const EstrategiaBaja: React.FC<EstrategiaBajaProps> = ({ onSelectStrategy }) => {
   const [selectedPath, setSelectedPath] = useState<string | null>(null);
   const [step, setStep] = useState(0);
+  const [waitingRetry, setWaitingRetry] = useState(false);
 
   const handlePathSelect = (path: string) => {
     setSelectedPath(path);
@@ -45,12 +46,22 @@ export const EstrategiaBaja: React.FC<EstrategiaBajaProps> = ({ onSelectStrategy
             <button
               key={i}
               className={`minigame-option ${i === currentStep.correct ? '' : 'neutral'}`}
-              onClick={() => setStep(step + 1)}
+              onClick={() => {
+                if (i === currentStep.correct) {
+                  setWaitingRetry(false);
+                  setStep(step + 1);
+                } else {
+                  setWaitingRetry(true);
+                }
+              }}
             >
               {option}
             </button>
           ))}
         </div>
+        {waitingRetry && (
+          <p style={{ color: '#FF9800', marginTop: '15px' }}>Esa no es la mejor opción. Intenta otra vez.</p>
+        )}
       </div>
     );
   }
@@ -69,10 +80,16 @@ export const EstrategiaBaja: React.FC<EstrategiaBajaProps> = ({ onSelectStrategy
           🔴 🔵 🟡 🟢 🔴 🔵
         </div>
         <div className="minigame-options">
-          <button className="minigame-option" onClick={() => setStep(1)}>1 vez</button>
-          <button className="minigame-option correct" onClick={() => setStep(1)}>2 veces</button>
-          <button className="minigame-option" onClick={() => setStep(1)}>3 veces</button>
+          <button className="minigame-option" onClick={() => setWaitingRetry(true)}>1 vez</button>
+          <button className="minigame-option correct" onClick={() => {
+            setWaitingRetry(false);
+            setStep(1);
+          }}>2 veces</button>
+          <button className="minigame-option" onClick={() => setWaitingRetry(true)}>3 veces</button>
         </div>
+        {waitingRetry && step === 0 && (
+          <p style={{ color: '#FF9800', marginTop: '15px' }}>No es correcto. Observa bien los colores e intenta de nuevo.</p>
+        )}
         {step === 1 && (
           <div style={{ marginTop: '20px' }}>
             <h3 style={{ color: '#4CAF50' }}>Correcto</h3>

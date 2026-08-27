@@ -7,6 +7,7 @@ interface EstrategiaMediaProps {
 export const EstrategiaMedia: React.FC<EstrategiaMediaProps> = ({ onSelectStrategy }) => {
   const [selectedPath, setSelectedPath] = useState<string | null>(null);
   const [step, setStep] = useState(0);
+  const [waitingRetry, setWaitingRetry] = useState(false);
 
   if (selectedPath === 'aceptacion') {
     const steps = [
@@ -59,10 +60,10 @@ export const EstrategiaMedia: React.FC<EstrategiaMediaProps> = ({ onSelectStrate
 
   if (selectedPath === 'problemas') {
     const steps = [
-      { title: "Identificar", question: "¿Qué está generando la dificultad?", options: ["No sé qué hacer", "Alguien me hizo algo que no me gustó", "Perdí algo importante", "Me siento solo"] },
-      { title: "Generar alternativas", question: "¿Qué podrías hacer al respecto?", options: ["Hablar con alguien", "Ignorar el problema", "Llorar", "Hacer algo diferente"] },
-      { title: "Elegir", question: "¿Cuál alternativa elegirías?", options: ["Hablar con alguien de confianza", "No hacer nada", "Enfadarme", "Esperar a que se arregle solo"] },
-      { title: "Actuar", question: "¿Qué harías primero?", options: ["Buscar a alguien y contale lo que pasó", "Ir a mi cuarto y quedarme solo", "Gritar", "No hacer nada"] },
+      { title: "Identificar", question: "¿Qué está generando la dificultad?", options: ["No sé qué hacer", "Alguien me hizo algo que no me gustó", "Perdí algo importante", "Me siento solo"], correct: 0 },
+      { title: "Generar alternativas", question: "¿Qué podrías hacer al respecto?", options: ["Hablar con alguien", "Ignorar el problema", "Llorar", "Hacer algo diferente"], correct: 0 },
+      { title: "Elegir", question: "¿Cuál alternativa elegirías?", options: ["Hablar con alguien de confianza", "No hacer nada", "Enfadarme", "Esperar a que se arregle solo"], correct: 0 },
+      { title: "Actuar", question: "¿Qué harías primero?", options: ["Buscar a alguien y contale lo que pasó", "Ir a mi cuarto y quedarme solo", "Gritar", "No hacer nada"], correct: 0 },
     ];
 
     if (step >= steps.length) {
@@ -91,13 +92,23 @@ export const EstrategiaMedia: React.FC<EstrategiaMediaProps> = ({ onSelectStrate
           {currentStep.options.map((option, i) => (
             <button
               key={i}
-              className={`minigame-option ${i === 0 ? '' : 'neutral'}`}
-              onClick={() => setStep(step + 1)}
+              className={`minigame-option ${i === currentStep.correct ? '' : 'neutral'}`}
+              onClick={() => {
+                if (i === currentStep.correct) {
+                  setWaitingRetry(false);
+                  setStep(step + 1);
+                } else {
+                  setWaitingRetry(true);
+                }
+              }}
             >
               {option}
             </button>
           ))}
         </div>
+        {waitingRetry && (
+          <p style={{ color: '#FF9800', marginTop: '15px' }}>Esa no es la mejor opción en este momento. Intenta con otra.</p>
+        )}
       </div>
     );
   }

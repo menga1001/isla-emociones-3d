@@ -7,6 +7,7 @@ interface EstrategiaAltaProps {
 export const EstrategiaAlta: React.FC<EstrategiaAltaProps> = ({ onSelectStrategy }) => {
   const [selectedPath, setSelectedPath] = useState<string | null>(null);
   const [step, setStep] = useState(0);
+  const [waitingRetry, setWaitingRetry] = useState(false);
 
   if (selectedPath === 'aceptacion') {
     const steps = [
@@ -49,8 +50,8 @@ export const EstrategiaAlta: React.FC<EstrategiaAltaProps> = ({ onSelectStrategy
 
   if (selectedPath === 'perspectiva') {
     const steps = [
-      { title: "Identifica el pensamiento extremo", question: "¿Qué estás pensando?", options: ["Todo está perdido y nunca mejorará", "Esto es difícil pero no define todo", "Nada va a cambiar jamás", "Es un momento muy duro, pero puedo buscar ayuda"] },
-      { title: "Busca una interpretación más equilibrada", question: "¿Qué otra forma hay de verlo?", options: ["Solo hay una forma de verlo", "Puedo reconocer el dolor sin asumir que todo está perdido", "Todo es malo", "Hay cosas que no puedo cambiar, pero sí otras que sí"] },
+      { title: "Identifica el pensamiento extremo", question: "¿Qué estás pensando?", options: ["Todo está perdido y nunca mejorará", "Esto es difícil pero no define todo", "Nada va a cambiar jamás", "Es un momento muy duro, pero puedo buscar ayuda"], correct: [1, 3] },
+      { title: "Busca una interpretación más equilibrada", question: "¿Qué otra forma hay de verlo?", options: ["Solo hay una forma de verlo", "Puedo reconocer el dolor sin asumir que todo está perdido", "Todo es malo", "Hay cosas que no puedo cambiar, pero sí otras que sí"], correct: [1, 3] },
     ];
 
     if (step >= steps.length) {
@@ -79,13 +80,23 @@ export const EstrategiaAlta: React.FC<EstrategiaAltaProps> = ({ onSelectStrategy
           {currentStep.options.map((option, i) => (
             <button
               key={i}
-              className={`minigame-option ${i === 1 || i === 3 ? '' : 'neutral'}`}
-              onClick={() => setStep(step + 1)}
+              className={`minigame-option ${currentStep.correct.includes(i) ? '' : 'neutral'}`}
+              onClick={() => {
+                if (currentStep.correct.includes(i)) {
+                  setWaitingRetry(false);
+                  setStep(step + 1);
+                } else {
+                  setWaitingRetry(true);
+                }
+              }}
             >
               {option}
             </button>
           ))}
         </div>
+        {waitingRetry && (
+          <p style={{ color: '#FF9800', marginTop: '15px' }}>Esa no es una perspectiva equilibrada. Intenta buscar otra forma de verlo.</p>
+        )}
       </div>
     );
   }
@@ -115,7 +126,12 @@ export const EstrategiaAlta: React.FC<EstrategiaAltaProps> = ({ onSelectStrategy
               key={i}
               className={`minigame-option ${step === 0 ? (person.valid ? '' : 'wrong') : 'neutral'}`}
               onClick={() => {
-                if (person.valid) setStep(1);
+                if (person.valid) {
+                  setStep(1);
+                  setWaitingRetry(false);
+                } else {
+                  setWaitingRetry(true);
+                }
               }}
               disabled={step > 0}
               style={{ padding: '15px', textAlign: 'center', minWidth: '120px' }}
@@ -125,6 +141,10 @@ export const EstrategiaAlta: React.FC<EstrategiaAltaProps> = ({ onSelectStrategy
             </button>
           ))}
         </div>
+
+        {waitingRetry && step === 0 && (
+          <p style={{ color: '#FF9800', marginTop: '10px' }}>Es mejor buscar a alguien que conozcas y en quien confíes.</p>
+        )}
 
         {step === 1 && (
           <div style={{ marginTop: '15px' }}>

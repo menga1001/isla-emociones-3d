@@ -15,30 +15,30 @@ interface Situation {
 
 const situations: Situation[] = [
   {
-    description: "Alguien tom\u00F3 tu libro sin pedirte permiso y lo est\u00E1 usando.",
+    description: "Alguien tomó tu libro sin pedirte permiso y lo está usando.",
     options: [
-      { text: "Gritar y arrebatar el libro", type: 'impulsive', feedback: "Entiendo que est\u00E1s enojado. Gritar puede hacer que la otra persona se asuste o se enoje tambi\u00E9n." },
-      { text: "Respirar profundo y decir '\u00BFMe puedes devolver mi libro?'", type: 'regulative', feedback: "\u00A1Excelente! Respirar te ayuda a calmarte y hablar con respeto es la mejor opci\u00F3n." },
-      { text: "Ir \u00E1ngrimo sin decir nada", type: 'impulsive', feedback: "Callar cuando est\u00E0s enojado puede hacer que el enojo crezca. Es mejor expresarlo con palabras." },
-      { text: "Hacer una pausa y luego pedir el libro", type: 'regulative', feedback: "Muy bien. La pausa te da tiempo para pensar antes de actuar." },
+      { text: "Gritar y arrebatar el libro", type: 'impulsive', feedback: "Gritar puede escalar el conflicto. Intenta otra opción." },
+      { text: "Respirar profundo y decir '¿Me puedes devolver mi libro?'", type: 'regulative', feedback: "Respirar te ayuda a calmarte y hablar con respeto es la mejor opción." },
+      { text: "Irte enojado sin decir nada", type: 'impulsive', feedback: "Callar cuando estás enojado puede hacer que el enojo crezca. Prueba otra forma." },
+      { text: "Hacer una pausa y luego pedir el libro", type: 'regulative', feedback: "La pausa te da tiempo para pensar antes de actuar. Buena decisión." },
     ]
   },
   {
-    description: "Un compa\u00F1ero se burl\u00F3 de ti frente a todos.",
+    description: "Un compañero se burló de ti frente a todos.",
     options: [
-      { text: "Golpear al compa\u00F1ero", type: 'impulsive', feedback: "La violencia nunca es la respuesta. Golpear puede hacer que las cosas empeoren mucho." },
-      { text: "Insultarlo de vuelta", type: 'impulsive', feedback: "Responder con insultos solo genera m\u00E1s conflicto. No es una buena soluci\u00F3n." },
-      { text: "Respirar, alejarse y despu\u00E9s hablar con un adulto", type: 'regulative', feedback: "\u00A1Muy bien! Alejarte te da espacio para calmarte, y un adulto puede ayudarte." },
-      { text: "Decir 'No me gusta que hagas eso' con calma", type: 'regulative', feedback: "\u00A1Excelente! Expresar c\u00F3mo te sientes con respeto es muy valiente." },
+      { text: "Golpear al compañero", type: 'impulsive', feedback: "La violencia nunca es la respuesta. Puedes elegir otra opción." },
+      { text: "Insultarlo de vuelta", type: 'impulsive', feedback: "Responder con insultos solo genera más conflicto. Intenta otra cosa." },
+      { text: "Respirar, alejarse y después hablar con alguien de confianza", type: 'regulative', feedback: "Alejarte te da espacio para calmarte, y hablar con alguien puede ayudarte." },
+      { text: "Decir 'No me gusta que hagas eso' con calma", type: 'regulative', feedback: "Expresar cómo te sientes con respeto es una habilidad importante." },
     ]
   },
   {
-    description: "Alguien empuj\u00F3 sin querer y se te cay\u00F3 tu comida al suelo.",
+    description: "Alguien empujó sin querer y se te cayó tu comida al suelo.",
     options: [
-      { text: "Empujar a la persona de vuelta", type: 'impulsive', feedback: "Empujar de vuelta puede hacer que alguien se lastime. No es una buena opci\u00F3n." },
-      { text: "Llorar sin hacer nada", type: 'neutral', feedback: "Est\u00E1 bien llorar a veces, pero tambi\u00E9n puedes expresar lo que sientes con palabras." },
-      { text: "Respirar y decir 'Cuidado, se me cay\u00F3 mi comida'", type: 'regulative', feedback: "\u00A1Muy bien! Mantuviste la calma y expresaste lo que pas\u00F3." },
-      { text: "Irte sin decir nada", type: 'impulsive', feedback: "Alejarte sin hablar puede hacer que la otra persona no sepa lo que pas\u00F3." },
+      { text: "Empujar a la persona de vuelta", type: 'impulsive', feedback: "Empujar de vuelta puede hacer que alguien se lastime. Elige otra opción." },
+      { text: "Llorar sin hacer nada", type: 'neutral', feedback: "Está bien llorar, pero también puedes expresar lo que sientes con palabras." },
+      { text: "Respirar y decir 'Cuidado, se me cayó mi comida'", type: 'regulative', feedback: "Mantuviste la calma y expresaste lo que pasó. Eso es lo correcto." },
+      { text: "Irte sin decir nada", type: 'impulsive', feedback: "Alejarte sin hablar puede generar más confusión. Prueba comunicarte." },
     ]
   }
 ];
@@ -49,6 +49,7 @@ export const DecisionGame: React.FC<DecisionGameProps> = ({ onComplete }) => {
   const [showFeedback, setShowFeedback] = useState(false);
   const [feedbackText, setFeedbackText] = useState('');
   const [isRegulative, setIsRegulative] = useState(false);
+  const [waitingRetry, setWaitingRetry] = useState(false);
 
   const handleOptionSelect = (optionIndex: number) => {
     const situation = situations[currentSituation];
@@ -59,26 +60,33 @@ export const DecisionGame: React.FC<DecisionGameProps> = ({ onComplete }) => {
     setIsRegulative(option.type === 'regulative');
     setShowFeedback(true);
 
-    setTimeout(() => {
-      setShowFeedback(false);
-      setSelectedOption(null);
-
-      if (currentSituation < situations.length - 1) {
-        setCurrentSituation(currentSituation + 1);
-      } else {
-        onComplete();
-      }
-    }, 3000);
+    if (option.type === 'regulative') {
+      setWaitingRetry(false);
+      setTimeout(() => {
+        setShowFeedback(false);
+        setSelectedOption(null);
+        if (currentSituation < situations.length - 1) {
+          setCurrentSituation(currentSituation + 1);
+        } else {
+          onComplete();
+        }
+      }, 3000);
+    } else {
+      setWaitingRetry(true);
+      setTimeout(() => {
+        setShowFeedback(false);
+      }, 2500);
+    }
   };
 
   const situation = situations[currentSituation];
 
   return (
     <div className="minigame-container">
-      <div className="minigame-title">\u00BFQu\u00E9 haces?</div>
+      <div className="minigame-title">¿Qué haces?</div>
 
       <div style={{
-        fontSize: '1.2rem',
+        fontSize: '1.1rem',
         padding: '20px',
         background: 'rgba(255, 69, 0, 0.3)',
         borderRadius: '15px',
@@ -98,12 +106,26 @@ export const DecisionGame: React.FC<DecisionGameProps> = ({ onComplete }) => {
                 : 'neutral'
             }`}
             onClick={() => handleOptionSelect(index)}
-            disabled={selectedOption !== null}
+            disabled={showFeedback && !waitingRetry}
           >
             {option.text}
           </button>
         ))}
       </div>
+
+      {waitingRetry && (
+        <button
+          className="menu-button"
+          style={{ marginTop: '15px', fontSize: '0.9rem', padding: '10px 20px' }}
+          onClick={() => {
+            setShowFeedback(false);
+            setSelectedOption(null);
+            setWaitingRetry(false);
+          }}
+        >
+          Intentar de nuevo
+        </button>
+      )}
 
       {showFeedback && (
         <div className="feedback-text" style={{
@@ -115,7 +137,7 @@ export const DecisionGame: React.FC<DecisionGameProps> = ({ onComplete }) => {
       )}
 
       <div style={{ marginTop: '20px', color: '#aaa' }}>
-        Situaci\u00F3n {currentSituation + 1} de {situations.length}
+        Situación {currentSituation + 1} de {situations.length}
       </div>
     </div>
   );
