@@ -19,6 +19,10 @@ body {
 
 canvas {
   touch-action: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
 }
 
 .hub-ui {
@@ -226,6 +230,46 @@ canvas {
 .menu-button:hover {
   transform: scale(1.05);
   box-shadow: 0 5px 20px rgba(255, 215, 0, 0.4);
+}
+
+.menu-island-preview {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.menu-island-icon {
+  font-size: 2.5rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+.menu-island-icon:nth-child(2) { animation-delay: 0.5s; }
+.menu-island-icon:nth-child(3) { animation-delay: 1s; }
+.menu-island-icon:nth-child(4) { animation-delay: 1.5s; }
+.menu-island-icon:nth-child(5) { animation-delay: 2s; }
+.menu-island-icon:nth-child(6) { animation-delay: 2.5s; }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.menu-features {
+  display: flex;
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.menu-feature {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #aaa;
+  font-size: 0.95rem;
+}
+
+.menu-feature-icon {
+  font-size: 1.3rem;
 }
 
 .settings-button {

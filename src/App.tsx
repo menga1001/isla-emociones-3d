@@ -23,6 +23,8 @@ const GameCanvas: React.FC = () => {
 
   return (
     <div className="game-container">
+      {state.currentScreen === 'menu' && <MenuScreen />}
+
       <Canvas
         shadows
         camera={{ position: [0, 5, 10], fov: 60 }}
@@ -37,10 +39,6 @@ const GameCanvas: React.FC = () => {
           shadow-mapSize-height={2048}
         />
 
-        {state.currentScreen === 'menu' && (
-          <MenuScreen />
-        )}
-
         {state.currentScreen === 'hub' && (
           <HubScene onIslandSelect={handleIslandSelect} />
         )}
@@ -50,18 +48,22 @@ const GameCanvas: React.FC = () => {
         )}
       </Canvas>
 
-      {state.currentScreen !== 'menu' && (
+      {state.currentScreen === 'hub' && (
         <>
+          <div className="hub-ui">
+            <h1 className="hub-title">Isla de las Emociones</h1>
+            <p className="hub-subtitle">Selecciona una isla para comenzar tu aventura</p>
+          </div>
           <EmotionalMeter value={state.emotionalMeter} />
           <Inventory items={state.kitEmocional} />
         </>
       )}
 
-      {state.currentScreen === 'hub' && (
-        <div className="hub-ui">
-          <h1 className="hub-title">Isla de las Emociones</h1>
-          <p className="hub-subtitle">Selecciona una isla para comenzar tu aventura</p>
-        </div>
+      {state.currentScreen === 'island' && (
+        <>
+          <EmotionalMeter value={state.emotionalMeter} />
+          <Inventory items={state.kitEmocional} />
+        </>
       )}
 
       <DialogBox />

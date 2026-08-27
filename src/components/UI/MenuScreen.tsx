@@ -1,36 +1,48 @@
 import { useGame } from '../../contexts/GameContext';
+import { islandsConfig } from '../../config/islands';
 
 export const MenuScreen: React.FC = () => {
-  const { dispatch } = useGame();
+  const { state, dispatch } = useGame();
 
   const handleStart = () => {
     dispatch({ type: 'SET_SCREEN', payload: 'hub' });
   };
 
   return (
-    <>
-      <mesh position={[0, 0, -5]}>
-        <planeGeometry args={[20, 20]} />
-        <meshBasicMaterial color="#1a1a2e" />
-      </mesh>
+    <div className="menu-screen">
+      <div className="menu-island-preview">
+        {islandsConfig.map((island) => (
+          <div
+            key={island.id}
+            className="menu-island-icon"
+            style={{ color: island.colors.primary }}
+          >
+            {island.icon}
+          </div>
+        ))}
+      </div>
 
-      <group position={[0, 2, 0]}>
-        {[...Array(6)].map((_, i) => {
-          const angle = (i / 6) * Math.PI * 2;
-          const x = Math.cos(angle) * 3;
-          const z = Math.sin(angle) * 3;
-          return (
-            <mesh key={i} position={[x, Math.sin(i) * 0.5, z]}>
-              <sphereGeometry args={[0.5, 16, 16]} />
-              <meshStandardMaterial
-                color={['#FF4500', '#4A90D9', '#FFD700', '#7B2D8E', '#27AE60', '#FFD700'][i]}
-                emissive={['#FF4500', '#4A90D9', '#FFD700', '#7B2D8E', '#27AE60', '#FFD700'][i]}
-                emissiveIntensity={0.3}
-              />
-            </mesh>
-          );
-        })}
-      </group>
-    </>
+      <h1 className="menu-title">Isla de las Emociones</h1>
+      <p className="menu-subtitle">Un viaje para aprender a manejar tus emociones</p>
+
+      <button className="menu-button" onClick={handleStart}>
+        Comenzar Aventura
+      </button>
+
+      <div className="menu-features">
+        <div className="menu-feature">
+          <span className="menu-feature-icon">🎓</span>
+          <span>6 islas emocionales</span>
+        </div>
+        <div className="menu-feature">
+          <span className="menu-feature-icon">🎮</span>
+          <span>Minijuegos interactivos</span>
+        </div>
+        <div className="menu-feature">
+          <span className="menu-feature-icon">🧠</span>
+          <span>Herramientas de regulación</span>
+        </div>
+      </div>
+    </div>
   );
 };
