@@ -2,6 +2,7 @@ import { Canvas } from '@react-three/fiber';
 import { GameProvider, useGame } from './contexts/GameContext';
 import { HubScene } from './components/Hub/HubScene';
 import { EnojoIsland } from './components/Islands/EnojoIsland';
+import { TristezaIsland } from './components/Islands/TristezaIsland';
 import { EmotionalMeter } from './components/UI/EmotionalMeter';
 import { Inventory } from './components/UI/Inventory';
 import { DialogBox } from './components/UI/DialogBox';
@@ -45,6 +46,10 @@ const GameCanvas: React.FC = () => {
 
         {state.currentScreen === 'island' && state.currentIsland === 'enojo' && (
           <EnojoIsland onBack={handleBackToHub} />
+        )}
+
+        {state.currentScreen === 'island' && state.currentIsland === 'tristeza' && (
+          <TristezaIsland onBack={handleBackToHub} />
         )}
       </Canvas>
 

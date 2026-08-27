@@ -1,0 +1,199 @@
+import { useState } from 'react';
+
+interface EstrategiaAltaProps {
+  onSelectStrategy: (strategy: string) => void;
+}
+
+export const EstrategiaAlta: React.FC<EstrategiaAltaProps> = ({ onSelectStrategy }) => {
+  const [selectedPath, setSelectedPath] = useState<string | null>(null);
+  const [step, setStep] = useState(0);
+
+  if (selectedPath === 'aceptacion') {
+    const steps = [
+      { title: "RECONOCER", text: "Estoy sintiendo una tristeza muy intensa.", icon: "👁️" },
+      { title: "COMPRENDER", text: "Esta emoción es fuerte porque algo muy importante para mí ocurrió.", icon: "🧠" },
+      { title: "ACEPTAR", text: "Puedo sentir esta tristeza intensa sin juzgarme. Es una emoción válida.", icon: "💚" },
+    ];
+
+    if (step >= steps.length) {
+      return (
+        <div className="minigame-container">
+          <h2 style={{ color: '#4CAF50', marginBottom: '20px' }}>Reconocer lo que sientes puede ser un primer paso para comenzar a afrontarlo.</h2>
+          <div style={{ fontSize: '3rem', marginBottom: '20px' }}>🌱</div>
+          <p style={{ color: '#FFD700', marginBottom: '20px' }}>Recompensa: Semilla de aceptación</p>
+          <button className="menu-button" onClick={() => onSelectStrategy('Semilla de aceptación')}>
+            Continuar
+          </button>
+        </div>
+      );
+    }
+
+    const currentStep = steps[step];
+
+    return (
+      <div className="minigame-container">
+        <div className="minigame-title">{currentStep.title}</div>
+        <div style={{ fontSize: '3rem', margin: '20px 0' }}>{currentStep.icon}</div>
+        <div style={{
+          fontSize: '1.5rem', padding: '30px', background: 'rgba(76, 175, 80, 0.2)',
+          borderRadius: '15px', marginBottom: '30px', color: 'white', maxWidth: '500px'
+        }}>
+          "{currentStep.text}"
+        </div>
+        <button className="menu-button" onClick={() => setStep(step + 1)}>
+          {step < steps.length - 1 ? 'Siguiente paso' : 'Completar'}
+        </button>
+      </div>
+    );
+  }
+
+  if (selectedPath === 'perspectiva') {
+    const steps = [
+      { title: "Identifica el pensamiento extremo", question: "¿Qué estás pensando?", options: ["Todo está perdido y nunca mejorará", "Esto es difícil pero no define todo", "Nada va a cambiar jamás", "Es un momento muy duro, pero puedo buscar ayuda"] },
+      { title: "Busca una interpretación más equilibrada", question: "¿Qué otra forma hay de verlo?", options: ["Solo hay una forma de verlo", "Puedo reconocer el dolor sin asumir que todo está perdido", "Todo es malo", "Hay cosas que no puedo cambiar, pero sí otras que sí"] },
+    ];
+
+    if (step >= steps.length) {
+      return (
+        <div className="minigame-container">
+          <h2 style={{ color: '#4CAF50', marginBottom: '20px' }}>¡Has encontrado una nueva perspectiva!</h2>
+          <p style={{ color: '#ccc', marginBottom: '20px', maxWidth: '500px' }}>
+            Puedes reconocer el dolor de una situación sin asumir que todo está perdido.
+          </p>
+          <div style={{ fontSize: '3rem', marginBottom: '20px' }}>💎</div>
+          <p style={{ color: '#FFD700', marginBottom: '20px' }}>Recompensa: Cristal de perspectiva</p>
+          <button className="menu-button" onClick={() => onSelectStrategy('Cristal de perspectiva')}>
+            Continuar
+          </button>
+        </div>
+      );
+    }
+
+    const currentStep = steps[step];
+
+    return (
+      <div className="minigame-container">
+        <div className="minigame-title">{currentStep.title}</div>
+        <p style={{ color: '#aaa', marginBottom: '20px' }}>{currentStep.question}</p>
+        <div className="minigame-options">
+          {currentStep.options.map((option, i) => (
+            <button
+              key={i}
+              className={`minigame-option ${i === 1 || i === 3 ? '' : 'neutral'}`}
+              onClick={() => setStep(step + 1)}
+            >
+              {option}
+            </button>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (selectedPath === 'apoyo') {
+    return (
+      <div className="minigame-container">
+        <div className="minigame-title">No tienes que hacerlo solo</div>
+        <p style={{ color: '#aaa', marginBottom: '20px', maxWidth: '500px' }}>
+          Busca a una persona de confianza en el escenario.
+        </p>
+
+        <div style={{
+          display: 'flex',
+          gap: '20px',
+          marginBottom: '25px',
+          flexWrap: 'wrap',
+          justifyContent: 'center'
+        }}>
+          {[
+            { name: "Mamá/Papá", icon: "👨‍👩‍👦", valid: true },
+            { name: "Amigo", icon: "👫", valid: true },
+            { name: "Profesor", icon: "👨‍🏫", valid: true },
+            { name: "Desconocido", icon: "❓", valid: false },
+          ].map((person, i) => (
+            <button
+              key={i}
+              className={`minigame-option ${step === 0 ? (person.valid ? '' : 'wrong') : 'neutral'}`}
+              onClick={() => {
+                if (person.valid) setStep(1);
+              }}
+              disabled={step > 0}
+              style={{ padding: '15px', textAlign: 'center', minWidth: '120px' }}
+            >
+              <div style={{ fontSize: '2.5rem' }}>{person.icon}</div>
+              <div style={{ marginTop: '8px' }}>{person.name}</div>
+            </button>
+          ))}
+        </div>
+
+        {step === 1 && (
+          <div style={{ marginTop: '15px' }}>
+            <p style={{ color: '#ccc', fontSize: '1.2rem', fontStyle: 'italic', marginBottom: '15px' }}>
+              "¿Quieres contarme qué ocurrió?"
+            </p>
+            <div className="minigame-options" style={{ maxWidth: '400px', margin: '0 auto' }}>
+              <button className="minigame-option" onClick={() => setStep(2)}>
+                "Estoy triste porque algo importante cambió"
+              </button>
+              <button className="minigame-option neutral" onClick={() => setStep(2)}>
+                "No sé cómo explicarlo"
+              </button>
+            </div>
+          </div>
+        )}
+
+        {step === 2 && (
+          <div style={{ marginTop: '15px' }}>
+            <h3 style={{ color: '#4CAF50', marginBottom: '15px' }}>¡Bien hecho!</h3>
+            <p style={{ color: '#ccc', marginBottom: '15px', maxWidth: '500px' }}>
+              Buscar apoyo puede ayudarte a expresar lo que sientes y afrontar situaciones difíciles.
+            </p>
+            <div style={{ fontSize: '3rem', marginBottom: '15px' }}>❤️</div>
+            <p style={{ color: '#FFD700', marginBottom: '15px' }}>Recompensa: Corazón de apoyo</p>
+            <button className="menu-button" onClick={() => onSelectStrategy('Corazón de apoyo')}>
+              Continuar
+            </button>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <div className="minigame-container">
+      <div className="minigame-title">Elige una estrategia</div>
+      <p style={{ color: '#aaa', marginBottom: '25px', maxWidth: '500px' }}>
+        Para una intensidad alta, puedes elegir entre estas estrategias:
+      </p>
+      <div className="minigame-options">
+        <button className="minigame-option" onClick={() => setSelectedPath('aceptacion')} style={{ padding: '20px', textAlign: 'left' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+            <span style={{ fontSize: '2rem' }}>🌿</span>
+            <div>
+              <div style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>Reconoce la emoción</div>
+              <div style={{ color: '#aaa', fontSize: '0.9rem' }}>Aceptación emocional</div>
+            </div>
+          </div>
+        </button>
+        <button className="minigame-option" onClick={() => setSelectedPath('perspectiva')} style={{ padding: '20px', textAlign: 'left' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+            <span style={{ fontSize: '2rem' }}>🔄</span>
+            <div>
+              <div style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>Cambia la perspectiva</div>
+              <div style={{ color: '#aaa', fontSize: '0.9rem' }}>Reevaluación cognitiva</div>
+            </div>
+          </div>
+        </button>
+        <button className="minigame-option" onClick={() => setSelectedPath('apoyo')} style={{ padding: '20px', textAlign: 'left' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+            <span style={{ fontSize: '2rem' }}>❤️</span>
+            <div>
+              <div style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>No tienes que hacerlo solo</div>
+              <div style={{ color: '#aaa', fontSize: '0.9rem' }}>Búsqueda de apoyo social</div>
+            </div>
+          </div>
+        </button>
+      </div>
+    </div>
+  );
+};
