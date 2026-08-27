@@ -46,6 +46,7 @@ export const TristezaIsland: React.FC<TristezaIslandProps> = ({ onBack }) => {
   const [selectedStrategy, setSelectedStrategy] = useState<string | null>(null);
   const [toolsCollected, setToolsCollected] = useState<string[]>([]);
   const [showFinalMessage, setShowFinalMessage] = useState(false);
+  const [completed, setCompleted] = useState(false);
 
   const handleComplete = useCallback(() => {
     dispatch({ type: 'COMPLETE_ISLAND', payload: 'tristeza' });
@@ -55,7 +56,16 @@ export const TristezaIsland: React.FC<TristezaIslandProps> = ({ onBack }) => {
 
   const handleFinalClose = () => {
     setShowFinalMessage(false);
-    onBack();
+    setCompleted(true);
+  };
+
+  const handleReplay = () => {
+    setStage('intro');
+    setIntensity(null);
+    setSelectedStrategy(null);
+    setToolsCollected([]);
+    setShowFinalMessage(false);
+    setCompleted(false);
   };
 
   const addTool = (tool: string) => {
@@ -64,7 +74,7 @@ export const TristezaIsland: React.FC<TristezaIslandProps> = ({ onBack }) => {
     }
   };
 
-  if (showFinalMessage || state.completedIslands.includes('tristeza')) {
+  if (completed) {
     return (
       <FinalMessage
         title="Isla de la Tristeza Completada"
@@ -72,6 +82,32 @@ export const TristezaIsland: React.FC<TristezaIslandProps> = ({ onBack }) => {
         toolUnlocked="Expresar y buscar apoyo"
         onClose={handleFinalClose}
       />
+    );
+  }
+
+  if (showFinalMessage) {
+    return (
+      <div className="minigame-container" style={{ maxWidth: '600px' }}>
+        <h2 style={{ color: '#FFD700', marginBottom: '20px', fontSize: '1.8rem' }}>
+          Isla de la Tristeza completada
+        </h2>
+        <div style={{ padding: '25px', background: 'rgba(74, 144, 217, 0.2)', borderRadius: '15px', marginBottom: '25px', textAlign: 'left', lineHeight: '1.7' }}>
+          <p style={{ color: '#ccc', marginBottom: '15px' }}>
+            Completaste el recorrido de la Isla de la Tristeza. Aprendiste a identificar la emoción, evaluar su intensidad y utilizar estrategias para afrontarla.
+          </p>
+          <p style={{ color: '#FFD700', fontWeight: 'bold' }}>
+            Recordá: regular una emoción no significa eliminarla. Significa aprender a reconocerla y encontrar maneras adecuadas de afrontarla.
+          </p>
+        </div>
+        <div style={{ display: 'flex', gap: '15px', justifyContent: 'center' }}>
+          <button className="menu-button" onClick={handleReplay}>
+            VOLVER A INTENTAR
+          </button>
+          <button className="menu-button" onClick={() => { handleFinalClose(); onBack(); }}>
+            VOLVER AL HUB
+          </button>
+        </div>
+      </div>
     );
   }
 

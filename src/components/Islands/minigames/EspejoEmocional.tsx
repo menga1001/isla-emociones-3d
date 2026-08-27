@@ -18,27 +18,25 @@ const manifestations = [
 export const EspejoEmocional: React.FC<EspejoEmocionalProps> = ({ onComplete }) => {
   const [found, setFound] = useState<number[]>([]);
   const [feedback, setFeedback] = useState<string | null>(null);
-  const [waitingRetry, setWaitingRetry] = useState(false);
-  const [lastClicked, setLastClicked] = useState<number | null>(null);
+  const [lastWrongId, setLastWrongId] = useState<number | null>(null);
 
   const handleInteraction = (manifestation: typeof manifestations[0]) => {
     if (manifestation.isSadness && !found.includes(manifestation.id)) {
-      setFound([...found, manifestation.id]);
+      const newFound = [...found, manifestation.id];
+      setFound(newFound);
       setFeedback(`"${manifestation.text}" es una manifestación común de la tristeza.`);
-      setWaitingRetry(false);
-      setTimeout(() => setFeedback(null), 2000);
+      setLastWrongId(null);
+      setTimeout(() => setFeedback(null), 2500);
 
-      if (found.length + 1 >= 5) {
-        setTimeout(onComplete, 2000);
+      if (newFound.length >= 5) {
+        setTimeout(onComplete, 2500);
       }
     } else if (!manifestation.isSadness) {
       setFeedback("Esa no está directamente relacionada con la tristeza. Intenta con otra.");
-      setLastClicked(manifestation.id);
-      setWaitingRetry(true);
-      setTimeout(() => setFeedback(null), 2000);
+      setLastWrongId(manifestation.id);
+      setTimeout(() => { setFeedback(null); setLastWrongId(null); }, 2000);
     } else {
       setFeedback("Ya identificaste esa manifestación.");
-      setWaitingRetry(false);
       setTimeout(() => setFeedback(null), 2000);
     }
   };
@@ -61,12 +59,9 @@ export const EspejoEmocional: React.FC<EspejoEmocionalProps> = ({ onComplete }) 
         {manifestations.map((m) => (
           <button
             key={m.id}
-            className={`minigame-option ${found.includes(m.id) ? 'correct' : (waitingRetry && lastClicked === m.id ? 'wrong' : 'neutral')}`}
+            className={`minigame-option ${found.includes(m.id) ? 'correct' : (lastWrongId === m.id ? 'wrong' : 'neutral')}`}
             onClick={() => handleInteraction(m)}
-            style={{
-              padding: '15px',
-              textAlign: 'center'
-            }}
+            style={{ padding: '15px', textAlign: 'center' }}
           >
             <div style={{ fontSize: '2rem', marginBottom: '5px' }}>{m.icon}</div>
             <div style={{ fontSize: '0.9rem' }}>{m.text}</div>

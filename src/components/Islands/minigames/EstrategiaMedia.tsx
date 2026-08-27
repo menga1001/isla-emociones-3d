@@ -7,7 +7,7 @@ interface EstrategiaMediaProps {
 export const EstrategiaMedia: React.FC<EstrategiaMediaProps> = ({ onSelectStrategy }) => {
   const [selectedPath, setSelectedPath] = useState<string | null>(null);
   const [step, setStep] = useState(0);
-  const [waitingRetry, setWaitingRetry] = useState(false);
+  const [feedback, setFeedback] = useState('');
 
   if (selectedPath === 'aceptacion') {
     const steps = [
@@ -21,34 +21,21 @@ export const EstrategiaMedia: React.FC<EstrategiaMediaProps> = ({ onSelectStrate
         <div className="minigame-container">
           <h2 style={{ color: '#4CAF50', marginBottom: '20px' }}>Aceptación completada</h2>
           <p style={{ color: '#ccc', marginBottom: '20px', maxWidth: '500px' }}>
-            Aceptar una emoción no significa eliminarla ni estar de acuerdo con lo ocurrido. Significa reconocer que está presente sin juzgarla ni intentar rechazarla de inmediato. Este proceso es conocido como aceptación emocional.
+            Aceptar una emoción no significa eliminarla. Significa reconocer que está presente sin juzgarla.
           </p>
           <div style={{ fontSize: '3rem', marginBottom: '20px' }}>🌱</div>
           <p style={{ color: '#FFD700', marginBottom: '20px' }}>Herramienta obtenida: Semilla de aceptación</p>
-          <button className="menu-button" onClick={() => onSelectStrategy('Semilla de aceptación')}>
-            Continuar
-          </button>
+          <button className="menu-button" onClick={() => onSelectStrategy('Semilla de aceptación')}>Continuar</button>
         </div>
       );
     }
 
     const currentStep = steps[step];
-
     return (
       <div className="minigame-container">
         <div className="minigame-title">{currentStep.title}</div>
-        <div style={{ fontSize: '3rem', margin: '20px 0' }}>
-          {currentStep.icon}
-        </div>
-        <div style={{
-          fontSize: '1.4rem',
-          padding: '30px',
-          background: 'rgba(76, 175, 80, 0.2)',
-          borderRadius: '15px',
-          marginBottom: '30px',
-          color: 'white',
-          maxWidth: '500px'
-        }}>
+        <div style={{ fontSize: '3rem', margin: '20px 0' }}>{currentStep.icon}</div>
+        <div style={{ fontSize: '1.4rem', padding: '30px', background: 'rgba(76, 175, 80, 0.2)', borderRadius: '15px', marginBottom: '30px', color: 'white', maxWidth: '500px' }}>
           "{currentStep.text}"
         </div>
         <button className="menu-button" onClick={() => setStep(step + 1)}>
@@ -71,19 +58,16 @@ export const EstrategiaMedia: React.FC<EstrategiaMediaProps> = ({ onSelectStrate
         <div className="minigame-container">
           <h2 style={{ color: '#4CAF50', marginBottom: '20px' }}>Proceso completado</h2>
           <p style={{ color: '#ccc', marginBottom: '20px', maxWidth: '500px' }}>
-            Cuando enfrentas un problema que puedes modificar, identificar alternativas y planificar una acción concreta te ayuda a recuperar la sensación de control.
+            Identificar alternativas y planificar una acción concreta te ayuda a recuperar la sensación de control.
           </p>
           <div style={{ fontSize: '3rem', marginBottom: '20px' }}>🔧</div>
           <p style={{ color: '#FFD700', marginBottom: '20px' }}>Herramienta obtenida: Herramienta de acción</p>
-          <button className="menu-button" onClick={() => onSelectStrategy('Herramienta de acción')}>
-            Continuar
-          </button>
+          <button className="menu-button" onClick={() => onSelectStrategy('Herramienta de acción')}>Continuar</button>
         </div>
       );
     }
 
     const currentStep = steps[step];
-
     return (
       <div className="minigame-container">
         <div className="minigame-title">{currentStep.title}</div>
@@ -95,10 +79,10 @@ export const EstrategiaMedia: React.FC<EstrategiaMediaProps> = ({ onSelectStrate
               className={`minigame-option ${i === currentStep.correct ? '' : 'neutral'}`}
               onClick={() => {
                 if (i === currentStep.correct) {
-                  setWaitingRetry(false);
+                  setFeedback('');
                   setStep(step + 1);
                 } else {
-                  setWaitingRetry(true);
+                  setFeedback('Esa no es la mejor opción en este momento.');
                 }
               }}
             >
@@ -106,9 +90,7 @@ export const EstrategiaMedia: React.FC<EstrategiaMediaProps> = ({ onSelectStrate
             </button>
           ))}
         </div>
-        {waitingRetry && (
-          <p style={{ color: '#FF9800', marginTop: '15px' }}>Esa no es la mejor opción en este momento. Intenta con otra.</p>
-        )}
+        {feedback && <p style={{ color: '#FF9800', marginTop: '15px' }}>{feedback}</p>}
       </div>
     );
   }

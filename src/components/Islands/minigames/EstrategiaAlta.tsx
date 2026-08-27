@@ -7,7 +7,7 @@ interface EstrategiaAltaProps {
 export const EstrategiaAlta: React.FC<EstrategiaAltaProps> = ({ onSelectStrategy }) => {
   const [selectedPath, setSelectedPath] = useState<string | null>(null);
   const [step, setStep] = useState(0);
-  const [waitingRetry, setWaitingRetry] = useState(false);
+  const [feedback, setFeedback] = useState('');
 
   if (selectedPath === 'aceptacion') {
     const steps = [
@@ -19,26 +19,20 @@ export const EstrategiaAlta: React.FC<EstrategiaAltaProps> = ({ onSelectStrategy
     if (step >= steps.length) {
       return (
         <div className="minigame-container">
-          <h2 style={{ color: '#4CAF50', marginBottom: '20px' }}>Reconocer lo que sientes es el primer paso para comenzar a afrontarlo.</h2>
+          <h2 style={{ color: '#4CAF50', marginBottom: '20px' }}>Reconocer lo que sientes es el primer paso</h2>
           <div style={{ fontSize: '3rem', marginBottom: '20px' }}>🌱</div>
           <p style={{ color: '#FFD700', marginBottom: '20px' }}>Herramienta obtenida: Semilla de aceptación</p>
-          <button className="menu-button" onClick={() => onSelectStrategy('Semilla de aceptación')}>
-            Continuar
-          </button>
+          <button className="menu-button" onClick={() => onSelectStrategy('Semilla de aceptación')}>Continuar</button>
         </div>
       );
     }
 
     const currentStep = steps[step];
-
     return (
       <div className="minigame-container">
         <div className="minigame-title">{currentStep.title}</div>
         <div style={{ fontSize: '3rem', margin: '20px 0' }}>{currentStep.icon}</div>
-        <div style={{
-          fontSize: '1.4rem', padding: '30px', background: 'rgba(76, 175, 80, 0.2)',
-          borderRadius: '15px', marginBottom: '30px', color: 'white', maxWidth: '500px'
-        }}>
+        <div style={{ fontSize: '1.4rem', padding: '30px', background: 'rgba(76, 175, 80, 0.2)', borderRadius: '15px', marginBottom: '30px', color: 'white', maxWidth: '500px' }}>
           "{currentStep.text}"
         </div>
         <button className="menu-button" onClick={() => setStep(step + 1)}>
@@ -59,19 +53,16 @@ export const EstrategiaAlta: React.FC<EstrategiaAltaProps> = ({ onSelectStrategy
         <div className="minigame-container">
           <h2 style={{ color: '#4CAF50', marginBottom: '20px' }}>Nueva perspectiva encontrada</h2>
           <p style={{ color: '#ccc', marginBottom: '20px', maxWidth: '500px' }}>
-            Puedes reconocer el dolor de una situación sin asumir que todo está perdido. Esta reevaluación cognitiva te permite ver la realidad de forma más completa.
+            Puedes reconocer el dolor sin asumir que todo está perdido.
           </p>
           <div style={{ fontSize: '3rem', marginBottom: '20px' }}>💎</div>
           <p style={{ color: '#FFD700', marginBottom: '20px' }}>Herramienta obtenida: Cristal de perspectiva</p>
-          <button className="menu-button" onClick={() => onSelectStrategy('Cristal de perspectiva')}>
-            Continuar
-          </button>
+          <button className="menu-button" onClick={() => onSelectStrategy('Cristal de perspectiva')}>Continuar</button>
         </div>
       );
     }
 
     const currentStep = steps[step];
-
     return (
       <div className="minigame-container">
         <div className="minigame-title">{currentStep.title}</div>
@@ -83,10 +74,10 @@ export const EstrategiaAlta: React.FC<EstrategiaAltaProps> = ({ onSelectStrategy
               className={`minigame-option ${currentStep.correct.includes(i) ? '' : 'neutral'}`}
               onClick={() => {
                 if (currentStep.correct.includes(i)) {
-                  setWaitingRetry(false);
+                  setFeedback('');
                   setStep(step + 1);
                 } else {
-                  setWaitingRetry(true);
+                  setFeedback('Esa no es una perspectiva equilibrada. Intenta otra.');
                 }
               }}
             >
@@ -94,9 +85,7 @@ export const EstrategiaAlta: React.FC<EstrategiaAltaProps> = ({ onSelectStrategy
             </button>
           ))}
         </div>
-        {waitingRetry && (
-          <p style={{ color: '#FF9800', marginTop: '15px' }}>Esa no es una perspectiva equilibrada. Intenta buscar otra forma de verlo.</p>
-        )}
+        {feedback && <p style={{ color: '#FF9800', marginTop: '15px' }}>{feedback}</p>}
       </div>
     );
   }
@@ -106,16 +95,9 @@ export const EstrategiaAlta: React.FC<EstrategiaAltaProps> = ({ onSelectStrategy
       <div className="minigame-container">
         <div className="minigame-title">No tienes que hacerlo solo</div>
         <p style={{ color: '#aaa', marginBottom: '20px', maxWidth: '500px' }}>
-          Buscar apoyo social es una estrategia efectiva. Selecciona a alguien de confianza en el escenario.
+          Buscar apoyo social es una estrategia efectiva. Selecciona a alguien de confianza.
         </p>
-
-        <div style={{
-          display: 'flex',
-          gap: '20px',
-          marginBottom: '25px',
-          flexWrap: 'wrap',
-          justifyContent: 'center'
-        }}>
+        <div style={{ display: 'flex', gap: '20px', marginBottom: '25px', flexWrap: 'wrap', justifyContent: 'center' }}>
           {[
             { name: "Familiar cercano", icon: "👨‍👩‍👦", valid: true },
             { name: "Amigo cercano", icon: "👫", valid: true },
@@ -126,12 +108,8 @@ export const EstrategiaAlta: React.FC<EstrategiaAltaProps> = ({ onSelectStrategy
               key={i}
               className={`minigame-option ${step === 0 ? (person.valid ? '' : 'wrong') : 'neutral'}`}
               onClick={() => {
-                if (person.valid) {
-                  setStep(1);
-                  setWaitingRetry(false);
-                } else {
-                  setWaitingRetry(true);
-                }
+                if (person.valid) { setStep(1); setFeedback(''); }
+                else { setFeedback('Es mejor buscar a alguien que conozcas y en quien confíes.'); }
               }}
               disabled={step > 0}
               style={{ padding: '15px', textAlign: 'center', minWidth: '120px' }}
@@ -141,10 +119,7 @@ export const EstrategiaAlta: React.FC<EstrategiaAltaProps> = ({ onSelectStrategy
             </button>
           ))}
         </div>
-
-        {waitingRetry && step === 0 && (
-          <p style={{ color: '#FF9800', marginTop: '10px' }}>Es mejor buscar a alguien que conozcas y en quien confíes.</p>
-        )}
+        {feedback && <p style={{ color: '#FF9800', marginTop: '10px' }}>{feedback}</p>}
 
         {step === 1 && (
           <div style={{ marginTop: '15px' }}>
@@ -166,13 +141,11 @@ export const EstrategiaAlta: React.FC<EstrategiaAltaProps> = ({ onSelectStrategy
           <div style={{ marginTop: '15px' }}>
             <h3 style={{ color: '#4CAF50', marginBottom: '15px' }}>Bien hecho</h3>
             <p style={{ color: '#ccc', marginBottom: '15px', maxWidth: '500px' }}>
-              Buscar apoyo no es un signo de debilidad. Expresar lo que sientes a alguien de confianza puede ayudarte a procesar la emoción y encontrar nuevas perspectivas.
+              Buscar apoyo no es debilidad. Expresar lo que sientes a alguien de confianza te ayuda a procesar la emoción.
             </p>
             <div style={{ fontSize: '3rem', marginBottom: '15px' }}>❤️</div>
             <p style={{ color: '#FFD700', marginBottom: '15px' }}>Herramienta obtenida: Corazón de apoyo</p>
-            <button className="menu-button" onClick={() => onSelectStrategy('Corazón de apoyo')}>
-              Continuar
-            </button>
+            <button className="menu-button" onClick={() => onSelectStrategy('Corazón de apoyo')}>Continuar</button>
           </div>
         )}
       </div>
