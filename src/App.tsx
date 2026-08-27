@@ -1,6 +1,8 @@
 import { Canvas } from '@react-three/fiber';
 import { GameProvider, useGame } from './contexts/GameContext';
 import { HubScene } from './components/Hub/HubScene';
+import { IslandEnvironment } from './components/Islands/environments/VolcanoBiome';
+import { CloudyBiome } from './components/Islands/environments/CloudyBiome';
 import { EnojoIsland } from './components/Islands/EnojoIsland';
 import { TristezaIsland } from './components/Islands/TristezaIsland';
 import { EmotionalMeter } from './components/UI/EmotionalMeter';
@@ -45,11 +47,11 @@ const GameCanvas: React.FC = () => {
         )}
 
         {state.currentScreen === 'island' && state.currentIsland === 'enojo' && (
-          <EnojoIsland onBack={handleBackToHub} />
+          <IslandEnvironment emotionLevel={state.emotionalMeter} />
         )}
 
         {state.currentScreen === 'island' && state.currentIsland === 'tristeza' && (
-          <TristezaIsland onBack={handleBackToHub} />
+          <CloudyBiome intensityLevel={30} />
         )}
       </Canvas>
 
@@ -64,8 +66,17 @@ const GameCanvas: React.FC = () => {
         </>
       )}
 
-      {state.currentScreen === 'island' && (
+      {state.currentScreen === 'island' && state.currentIsland === 'enojo' && (
         <>
+          <EnojoIsland onBack={handleBackToHub} />
+          <EmotionalMeter value={state.emotionalMeter} />
+          <Inventory items={state.kitEmocional} />
+        </>
+      )}
+
+      {state.currentScreen === 'island' && state.currentIsland === 'tristeza' && (
+        <>
+          <TristezaIsland onBack={handleBackToHub} />
           <EmotionalMeter value={state.emotionalMeter} />
           <Inventory items={state.kitEmocional} />
         </>

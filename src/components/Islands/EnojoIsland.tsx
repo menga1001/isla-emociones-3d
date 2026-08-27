@@ -4,7 +4,6 @@ import { getIslandById } from '../../config/islands';
 import { BreathingGame } from './minigames/BreathingGame';
 import { RecognitionGame } from './minigames/RecognitionGame';
 import { DecisionGame } from './minigames/DecisionGame';
-import { IslandEnvironment } from './environments/VolcanoBiome';
 import { FinalMessage } from '../UI/FinalMessage';
 
 interface EnojoIslandProps {
@@ -47,8 +46,6 @@ export const EnojoIsland: React.FC<EnojoIslandProps> = ({ onBack }) => {
 
   return (
     <>
-      <IslandEnvironment emotionLevel={state.emotionalMeter} />
-
       <button className="back-button" onClick={onBack}>
         Volver al Hub
       </button>

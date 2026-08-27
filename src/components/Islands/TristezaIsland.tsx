@@ -1,7 +1,6 @@
 import { useState, useCallback } from 'react';
 import { useGame } from '../../contexts/GameContext';
 import { getIslandById } from '../../config/islands';
-import { CloudyBiome } from './environments/CloudyBiome';
 import { FinalMessage } from '../UI/FinalMessage';
 import { IdentificarEmocion } from './minigames/IdentificarEmocion';
 import { EspejoEmocional } from './minigames/EspejoEmocional';
@@ -74,8 +73,6 @@ export const TristezaIsland: React.FC<TristezaIslandProps> = ({ onBack }) => {
 
   return (
     <>
-      <CloudyBiome intensityLevel={intensity === 'alta' ? 80 : intensity === 'media' ? 50 : 30} />
-
       <button className="back-button" onClick={onBack}>
         Volver al Hub
       </button>
