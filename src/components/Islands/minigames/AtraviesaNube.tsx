@@ -73,9 +73,9 @@ export const AtraviesaNube: React.FC<AtraviesaNubeProps> = ({ strategy, onComple
   if (showInstructions) {
     return (
       <div className="minigame-container">
-        <div className="minigame-title">¡Atraviesa la Nube!</div>
-        <p style={{ color: '#ccc', marginBottom: '20px', maxWidth: '500px', lineHeight: '1.5' }}>
-          La tristeza no tiene que desaparecer para que puedas continuar. Utiliza lo que aprendiste para atravesar la nube.
+        <div className="minigame-title">Atraviesa la nube</div>
+        <p style={{ color: '#ccc', marginBottom: '20px', maxWidth: '500px', lineHeight: '1.6' }}>
+          La tristeza no tiene que desaparecer para que puedas continuar. Este desafío simboliza avanzar a pesar de la emoción, utilizando la estrategia que elegiste.
         </p>
 
         <div style={{
@@ -113,7 +113,7 @@ export const AtraviesaNube: React.FC<AtraviesaNubeProps> = ({ strategy, onComple
         textAlign: 'center',
         zIndex: 15
       }}>
-        <p style={{ fontSize: '1.2rem' }}>Haz clic en la nube para avanzar</p>
+        <p style={{ fontSize: '1.1rem' }}>Haz clic en la nube para avanzar</p>
         <p style={{ color: '#aaa', fontSize: '0.9rem' }}>La nube se disipará poco a poco</p>
       </div>
     </div>

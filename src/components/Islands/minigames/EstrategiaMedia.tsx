@@ -10,20 +10,20 @@ export const EstrategiaMedia: React.FC<EstrategiaMediaProps> = ({ onSelectStrate
 
   if (selectedPath === 'aceptacion') {
     const steps = [
-      { title: "RECONOCER", text: "Estoy sintiendo tristeza.", icon: "👁️" },
-      { title: "COMPRENDER", text: "Esta emoción apareció porque ocurrió algo importante para mí.", icon: "🧠" },
-      { title: "ACEPTAR", text: "Puedo sentir tristeza sin juzgarme por sentirla.", icon: "💚" },
+      { title: "Reconocer", text: "Estoy sintiendo tristeza.", icon: "👁️" },
+      { title: "Comprender", text: "Esta emoción apareció porque ocurrió algo importante para mí.", icon: "🧠" },
+      { title: "Aceptar", text: "Puedo sentir tristeza sin juzgarme por sentirla.", icon: "💚" },
     ];
 
     if (step >= steps.length) {
       return (
         <div className="minigame-container">
-          <h2 style={{ color: '#4CAF50', marginBottom: '20px' }}>Has completado el Jardín de la Emoción</h2>
+          <h2 style={{ color: '#4CAF50', marginBottom: '20px' }}>Aceptación completada</h2>
           <p style={{ color: '#ccc', marginBottom: '20px', maxWidth: '500px' }}>
-            Aceptar una emoción no significa eliminarla ni estar de acuerdo con lo ocurrido. Significa reconocer que está presente sin juzgarla ni intentar rechazarla inmediatamente.
+            Aceptar una emoción no significa eliminarla ni estar de acuerdo con lo ocurrido. Significa reconocer que está presente sin juzgarla ni intentar rechazarla de inmediato. Este proceso es conocido como aceptación emocional.
           </p>
           <div style={{ fontSize: '3rem', marginBottom: '20px' }}>🌱</div>
-          <p style={{ color: '#FFD700', marginBottom: '20px' }}>Recompensa: Semilla de aceptación</p>
+          <p style={{ color: '#FFD700', marginBottom: '20px' }}>Herramienta obtenida: Semilla de aceptación</p>
           <button className="menu-button" onClick={() => onSelectStrategy('Semilla de aceptación')}>
             Continuar
           </button>
@@ -36,14 +36,11 @@ export const EstrategiaMedia: React.FC<EstrategiaMediaProps> = ({ onSelectStrate
     return (
       <div className="minigame-container">
         <div className="minigame-title">{currentStep.title}</div>
-        <div style={{
-          fontSize: '3rem',
-          margin: '20px 0'
-        }}>
+        <div style={{ fontSize: '3rem', margin: '20px 0' }}>
           {currentStep.icon}
         </div>
         <div style={{
-          fontSize: '1.5rem',
+          fontSize: '1.4rem',
           padding: '30px',
           background: 'rgba(76, 175, 80, 0.2)',
           borderRadius: '15px',
@@ -62,21 +59,21 @@ export const EstrategiaMedia: React.FC<EstrategiaMediaProps> = ({ onSelectStrate
 
   if (selectedPath === 'problemas') {
     const steps = [
-      { title: "1. Identificar el problema", question: "¿Qué está generando la dificultad?", options: ["No sé qué hacer", "Alguien me hizo algo que no me gustó", "Perdí algo importante", "Me siento solo"] },
-      { title: "2. Generar alternativas", question: "¿Qué podrías hacer?", options: ["Hablar con alguien", "Ignorar el problema", "Llorar", "Hacer algo diferente"] },
-      { title: "3. Elegir una alternativa", question: "¿Cuál elegirías?", options: ["Hablar con alguien de confianza", "No hacer nada", "Enfadarme", "Esperar a que se arregle solo"] },
-      { title: "4. Actuar", question: "¡Ahora ponlo en práctica! ¿Qué harías primero?", options: ["Buscar a un amigo y contale lo que pasó", "Ir a mi cuarto y quedarme solo", "Gritar", "No hacer nada"] },
+      { title: "Identificar", question: "¿Qué está generando la dificultad?", options: ["No sé qué hacer", "Alguien me hizo algo que no me gustó", "Perdí algo importante", "Me siento solo"] },
+      { title: "Generar alternativas", question: "¿Qué podrías hacer al respecto?", options: ["Hablar con alguien", "Ignorar el problema", "Llorar", "Hacer algo diferente"] },
+      { title: "Elegir", question: "¿Cuál alternativa elegirías?", options: ["Hablar con alguien de confianza", "No hacer nada", "Enfadarme", "Esperar a que se arregle solo"] },
+      { title: "Actuar", question: "¿Qué harías primero?", options: ["Buscar a alguien y contale lo que pasó", "Ir a mi cuarto y quedarme solo", "Gritar", "No hacer nada"] },
     ];
 
     if (step >= steps.length) {
       return (
         <div className="minigame-container">
-          <h2 style={{ color: '#4CAF50', marginBottom: '20px' }}>¡Has completado el camino!</h2>
+          <h2 style={{ color: '#4CAF50', marginBottom: '20px' }}>Proceso completado</h2>
           <p style={{ color: '#ccc', marginBottom: '20px', maxWidth: '500px' }}>
-            Cuando existe algo que podemos modificar, identificar alternativas y actuar puede ayudarnos a afrontar la situación.
+            Cuando enfrentas un problema que puedes modificar, identificar alternativas y planificar una acción concreta te ayuda a recuperar la sensación de control.
           </p>
           <div style={{ fontSize: '3rem', marginBottom: '20px' }}>🔧</div>
-          <p style={{ color: '#FFD700', marginBottom: '20px' }}>Recompensa: Herramienta de acción</p>
+          <p style={{ color: '#FFD700', marginBottom: '20px' }}>Herramienta obtenida: Herramienta de acción</p>
           <button className="menu-button" onClick={() => onSelectStrategy('Herramienta de acción')}>
             Continuar
           </button>

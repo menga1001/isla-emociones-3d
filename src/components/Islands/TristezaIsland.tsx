@@ -26,6 +26,18 @@ interface TristezaIslandProps {
   onBack: () => void;
 }
 
+const stageLabels: Record<TristezaStage, string> = {
+  intro: 'Bienvenida',
+  identificar: 'Identificar',
+  espejo: 'Manifestaciones',
+  intensidad: 'Intensidad',
+  estrategia: 'Estrategia',
+  reevaluacion: 'Reevaluación',
+  desafio: 'Desafío Final',
+  cierre: 'Cierre',
+  final: 'Completada',
+};
+
 export const TristezaIsland: React.FC<TristezaIslandProps> = ({ onBack }) => {
   const { state, dispatch } = useGame();
   const islandConfig = getIslandById('tristeza');
@@ -65,10 +77,15 @@ export const TristezaIsland: React.FC<TristezaIslandProps> = ({ onBack }) => {
 
   const getDialogue = () => {
     if (!islandConfig) return '';
-    if (stage === 'intro') return islandConfig.guideDialogue.intro;
-    if (stage === 'identificar') return islandConfig.guideDialogue.level1Start;
-    if (stage === 'cierre') return islandConfig.guideDialogue.level3Complete;
-    return islandConfig.guideDialogue.level2Start;
+    const { guideDialogue } = islandConfig;
+    switch (stage) {
+      case 'intro': return guideDialogue.intro;
+      case 'identificar': return guideDialogue.level1Start;
+      case 'espejo': return guideDialogue.level2Start;
+      case 'intensidad': return guideDialogue.level3Start;
+      case 'cierre': return guideDialogue.level3Complete;
+      default: return guideDialogue.level2Start;
+    }
   };
 
   return (
@@ -78,16 +95,16 @@ export const TristezaIsland: React.FC<TristezaIslandProps> = ({ onBack }) => {
       </button>
 
       <div className="level-indicator">
-        Isla de la Tristeza — {stage === 'intro' ? 'Bienvenida' : stage === 'identificar' ? 'Etapa 1: Identificar' : stage === 'espejo' ? 'Etapa 2: Manifestaciones' : stage === 'intensidad' ? 'Etapa 3: Intensidad' : stage === 'estrategia' ? 'Estrategia' : stage === 'desafio' ? 'Desafío Final' : stage === 'cierre' ? 'Cierre' : 'Completada'}
+        Isla de la Tristeza — {stageLabels[stage]}
       </div>
 
       {stage === 'intro' && (
         <div className="tristeza-intro">
           <div className="tristeza-intro-content">
-            <h2>¡Bienvenido al Valle de las Nubes!</h2>
-            <p>La tristeza es una emoción que puede aparecer ante pérdidas, separaciones, decepciones, rechazos o cambios significativos.</p>
-            <p>En esta isla aprenderás a reconocerla, identificar su intensidad y utilizar diferentes estrategias para afrontarla.</p>
-            <p>Tu misión será encontrar las herramientas que te permitan continuar el recorrido.</p>
+            <h2>Valle de las Nubes</h2>
+            <p>La tristeza es una emoción que puede aparecer ante pérdidas, separaciones, decepciones o cambios significativos.</p>
+            <p>A lo largo de esta isla vas a reconocerla, identificar su intensidad y aprender estrategias concretas para afrontarla.</p>
+            <p>No se trata de eliminar la emoción, sino de encontrar maneras de gestionarla.</p>
             <button className="menu-button" onClick={() => setStage('identificar')}>
               COMENZAR
             </button>
@@ -147,8 +164,8 @@ export const TristezaIsland: React.FC<TristezaIslandProps> = ({ onBack }) => {
       {stage === 'reevaluacion' && (
         <div className="tristeza-reevaluacion">
           <div className="minigame-container">
-            <h2>¿Cómo está ahora tu tristeza?</h2>
-            <p style={{ color: '#aaa', marginBottom: '20px' }}>Compara con la intensidad que identificaste al inicio.</p>
+            <h2>Vuelve a evaluar tu estado</h2>
+            <p style={{ color: '#aaa', marginBottom: '20px' }}>Compara con la intensidad que identificaste al inicio. ¿Cambió algo?</p>
             <SelectorIntensidad
               onSelect={(newIntensity) => {
                 setIntensity(newIntensity);

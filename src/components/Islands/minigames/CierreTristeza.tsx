@@ -21,7 +21,7 @@ export const CierreTristeza: React.FC<CierreTristezaProps> = ({ tools, onComplet
       {!showRewards ? (
         <>
           <h2 style={{ color: '#FFD700', marginBottom: '20px', fontSize: '1.8rem' }}>
-            ¡Has completado el Valle de las Nubes!
+            Isla de la Tristeza completada
           </h2>
 
           <div style={{
@@ -30,29 +30,29 @@ export const CierreTristeza: React.FC<CierreTristezaProps> = ({ tools, onComplet
             borderRadius: '15px',
             marginBottom: '25px',
             textAlign: 'left',
-            lineHeight: '1.6'
+            lineHeight: '1.7'
           }}>
             <p style={{ color: '#ccc', marginBottom: '15px' }}>
-              La tristeza es una emoción que puede aparecer ante pérdidas, separaciones, decepciones, rechazos o cambios significativos.
+              La tristeza es una emoción que puede aparecer ante pérdidas, separaciones, decepciones o cambios significativos. Es una respuesta natural del organismo.
             </p>
             <p style={{ color: '#ccc', marginBottom: '15px' }}>
-              Reconocer qué estás sintiendo y qué tan intensa es la emoción puede ayudarte a decidir cómo afrontarla.
+              Reconocer qué estás sintiendo y evaluar la intensidad de la emoción te permite decidir cómo afrontarla de manera más consciente.
             </p>
             <p style={{ color: '#ccc', marginBottom: '15px' }}>
-              Existen diferentes estrategias de regulación emocional. Aprender a utilizarlas de manera flexible puede ayudarte a afrontar diferentes situaciones.
+              Las estrategias de regulación emocional — como la reevaluación cognitiva, la aceptación, la solución de problemas, el despliegue atencional y la búsqueda de apoyo — son herramientas que puedes utilizar de forma flexible según la situación.
             </p>
             <p style={{ color: '#FFD700', fontWeight: 'bold' }}>
-              Recuerda: regular una emoción no significa eliminarla. Significa aprender a reconocerla y encontrar maneras adecuadas de afrontarla.
+              Recordá: regular una emoción no significa eliminarla. Significa aprender a reconocerla y encontrar maneras adecuadas de afrontarla.
             </p>
           </div>
 
           <button className="menu-button" onClick={() => setShowRewards(true)}>
-            VER RECOMPENSAS
+            VER HERRAMIENTAS OBTENIDAS
           </button>
         </>
       ) : (
         <>
-          <h2 style={{ color: '#FFD700', marginBottom: '20px' }}>Recompensas Finales</h2>
+          <h2 style={{ color: '#FFD700', marginBottom: '20px' }}>Herramientas obtenidas</h2>
 
           <div style={{
             display: 'grid',
@@ -101,7 +101,7 @@ export const CierreTristeza: React.FC<CierreTristezaProps> = ({ tools, onComplet
           </div>
 
           <button className="menu-button" onClick={onComplete}>
-            CONTINUAR A LA SIGUIENTE ISLA
+            CONTINUAR
           </button>
         </>
       )}

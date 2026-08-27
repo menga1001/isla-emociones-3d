@@ -18,19 +18,17 @@ export const EstrategiaBaja: React.FC<EstrategiaBajaProps> = ({ onSelectStrategy
     { title: "Busca otra perspectiva", question: "¿Qué otra forma hay de ver esto?", options: ["Solo hay una forma de verlo", "Puedo encontrar algo positivo en esto", "Todo es malo", "Hay cosas que no puedo cambiar, pero sí otras que sí"], correct: 3 },
   ];
 
-  const attentionSteps = [
-    { title: "Concéntrate en esta tarea", question: "Cuenta los colores que aparecen:", colors: ["🔴", "🔵", "🟡", "🟢", "🔴", "🔵"], answer: 2 },
-  ];
-
   if (selectedPath === 'reevaluacion') {
     const currentStep = reevaluationSteps[step];
     if (!currentStep) {
       return (
         <div className="minigame-container">
-          <h2 style={{ color: '#4CAF50', marginBottom: '20px' }}>¡Has encontrado una nueva perspectiva!</h2>
-          <p style={{ color: '#ccc', marginBottom: '20px' }}>Puedes reconocer que una situación es difícil sin asumir que todo está perdido.</p>
+          <h2 style={{ color: '#4CAF50', marginBottom: '20px' }}>Nueva perspectiva encontrada</h2>
+          <p style={{ color: '#ccc', marginBottom: '20px', maxWidth: '500px' }}>
+            Puedes reconocer que una situación es difícil sin asumir que todo está perdido. Esta habilidad se llama reevaluación cognitiva, y es una de las estrategias más efectivas para regular emociones.
+          </p>
           <div style={{ fontSize: '3rem', marginBottom: '20px' }}>💎</div>
-          <p style={{ color: '#FFD700', marginBottom: '20px' }}>Recompensa: Cristal de perspectiva</p>
+          <p style={{ color: '#FFD700', marginBottom: '20px' }}>Herramienta obtenida: Cristal de perspectiva</p>
           <button className="menu-button" onClick={() => onSelectStrategy('Cristal de perspectiva')}>
             Continuar
           </button>
@@ -60,32 +58,29 @@ export const EstrategiaBaja: React.FC<EstrategiaBajaProps> = ({ onSelectStrategy
   if (selectedPath === 'atencion') {
     return (
       <div className="minigame-container">
-        <div className="minigame-title">Dirige tu atención</div>
-        <p style={{ color: '#aaa', marginBottom: '20px' }}>
-          Concentra tu atención en esta actividad. Cuenta cuántas veces aparece el color azul:
+        <div className="minigame-title">Redirige tu atención</div>
+        <p style={{ color: '#aaa', marginBottom: '20px', maxWidth: '500px' }}>
+          El despliegue atencional consiste en redirigir voluntariamente tu foco de atención hacia un estímulo neutral. Esto puede ayudar a reducir temporalmente la intensidad emocional.
+        </p>
+        <p style={{ color: '#ccc', marginBottom: '20px' }}>
+          Cuenta cuántas veces aparece el color azul:
         </p>
         <div style={{ fontSize: '3rem', marginBottom: '20px', letterSpacing: '20px' }}>
           🔴 🔵 🟡 🟢 🔴 🔵
         </div>
         <div className="minigame-options">
-          <button className="minigame-option" onClick={() => {
-            setStep(1);
-          }}>1 vez</button>
-          <button className="minigame-option correct" onClick={() => {
-            setStep(1);
-          }}>2 veces</button>
-          <button className="minigame-option" onClick={() => {
-            setStep(1);
-          }}>3 veces</button>
+          <button className="minigame-option" onClick={() => setStep(1)}>1 vez</button>
+          <button className="minigame-option correct" onClick={() => setStep(1)}>2 veces</button>
+          <button className="minigame-option" onClick={() => setStep(1)}>3 veces</button>
         </div>
         {step === 1 && (
           <div style={{ marginTop: '20px' }}>
-            <h3 style={{ color: '#4CAF50' }}>¡Correcto!</h3>
-            <p style={{ color: '#ccc', marginBottom: '15px' }}>
-              Cambiar temporalmente el foco de atención puede ayudarte a disminuir el espacio que ocupa una emoción desagradable.
+            <h3 style={{ color: '#4CAF50' }}>Correcto</h3>
+            <p style={{ color: '#ccc', marginBottom: '15px', maxWidth: '500px' }}>
+              Redirigir la atención no elimina la emoción, pero puede darte un respiro y ayudarte a ver la situación con mayor claridad.
             </p>
             <div style={{ fontSize: '3rem', marginBottom: '15px' }}>⭐</div>
-            <p style={{ color: '#FFD700', marginBottom: '15px' }}>Recompensa: Estrella de atención</p>
+            <p style={{ color: '#FFD700', marginBottom: '15px' }}>Herramienta obtenida: Estrella de atención</p>
             <button className="menu-button" onClick={() => onSelectStrategy('Estrella de atención')}>
               Continuar
             </button>
@@ -99,7 +94,7 @@ export const EstrategiaBaja: React.FC<EstrategiaBajaProps> = ({ onSelectStrategy
     <div className="minigame-container">
       <div className="minigame-title">Elige una estrategia</div>
       <p style={{ color: '#aaa', marginBottom: '25px', maxWidth: '500px' }}>
-        Para una intensidad baja, estas estrategias pueden ayudarte:
+        Para una intensidad baja, estas estrategias pueden serte útiles:
       </p>
       <div className="minigame-options">
         <button className="minigame-option" onClick={() => handlePathSelect('reevaluacion')} style={{ padding: '20px', textAlign: 'left' }}>
@@ -115,7 +110,7 @@ export const EstrategiaBaja: React.FC<EstrategiaBajaProps> = ({ onSelectStrategy
           <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
             <span style={{ fontSize: '2rem' }}>🎯</span>
             <div>
-              <div style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>Dirige tu atención</div>
+              <div style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>Redirige tu atención</div>
               <div style={{ color: '#aaa', fontSize: '0.9rem' }}>Despliegue atencional</div>
             </div>
           </div>

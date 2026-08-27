@@ -10,17 +10,17 @@ export const EstrategiaAlta: React.FC<EstrategiaAltaProps> = ({ onSelectStrategy
 
   if (selectedPath === 'aceptacion') {
     const steps = [
-      { title: "RECONOCER", text: "Estoy sintiendo una tristeza muy intensa.", icon: "👁️" },
-      { title: "COMPRENDER", text: "Esta emoción es fuerte porque algo muy importante para mí ocurrió.", icon: "🧠" },
-      { title: "ACEPTAR", text: "Puedo sentir esta tristeza intensa sin juzgarme. Es una emoción válida.", icon: "💚" },
+      { title: "Reconocer", text: "Estoy sintiendo una tristeza muy intensa.", icon: "👁️" },
+      { title: "Comprender", text: "Esta emoción es fuerte porque algo muy importante para mí ocurrió.", icon: "🧠" },
+      { title: "Aceptar", text: "Puedo sentir esta tristeza intensa sin juzgarme. Es una emoción válida.", icon: "💚" },
     ];
 
     if (step >= steps.length) {
       return (
         <div className="minigame-container">
-          <h2 style={{ color: '#4CAF50', marginBottom: '20px' }}>Reconocer lo que sientes puede ser un primer paso para comenzar a afrontarlo.</h2>
+          <h2 style={{ color: '#4CAF50', marginBottom: '20px' }}>Reconocer lo que sientes es el primer paso para comenzar a afrontarlo.</h2>
           <div style={{ fontSize: '3rem', marginBottom: '20px' }}>🌱</div>
-          <p style={{ color: '#FFD700', marginBottom: '20px' }}>Recompensa: Semilla de aceptación</p>
+          <p style={{ color: '#FFD700', marginBottom: '20px' }}>Herramienta obtenida: Semilla de aceptación</p>
           <button className="menu-button" onClick={() => onSelectStrategy('Semilla de aceptación')}>
             Continuar
           </button>
@@ -35,7 +35,7 @@ export const EstrategiaAlta: React.FC<EstrategiaAltaProps> = ({ onSelectStrategy
         <div className="minigame-title">{currentStep.title}</div>
         <div style={{ fontSize: '3rem', margin: '20px 0' }}>{currentStep.icon}</div>
         <div style={{
-          fontSize: '1.5rem', padding: '30px', background: 'rgba(76, 175, 80, 0.2)',
+          fontSize: '1.4rem', padding: '30px', background: 'rgba(76, 175, 80, 0.2)',
           borderRadius: '15px', marginBottom: '30px', color: 'white', maxWidth: '500px'
         }}>
           "{currentStep.text}"
@@ -56,12 +56,12 @@ export const EstrategiaAlta: React.FC<EstrategiaAltaProps> = ({ onSelectStrategy
     if (step >= steps.length) {
       return (
         <div className="minigame-container">
-          <h2 style={{ color: '#4CAF50', marginBottom: '20px' }}>¡Has encontrado una nueva perspectiva!</h2>
+          <h2 style={{ color: '#4CAF50', marginBottom: '20px' }}>Nueva perspectiva encontrada</h2>
           <p style={{ color: '#ccc', marginBottom: '20px', maxWidth: '500px' }}>
-            Puedes reconocer el dolor de una situación sin asumir que todo está perdido.
+            Puedes reconocer el dolor de una situación sin asumir que todo está perdido. Esta reevaluación cognitiva te permite ver la realidad de forma más completa.
           </p>
           <div style={{ fontSize: '3rem', marginBottom: '20px' }}>💎</div>
-          <p style={{ color: '#FFD700', marginBottom: '20px' }}>Recompensa: Cristal de perspectiva</p>
+          <p style={{ color: '#FFD700', marginBottom: '20px' }}>Herramienta obtenida: Cristal de perspectiva</p>
           <button className="menu-button" onClick={() => onSelectStrategy('Cristal de perspectiva')}>
             Continuar
           </button>
@@ -95,7 +95,7 @@ export const EstrategiaAlta: React.FC<EstrategiaAltaProps> = ({ onSelectStrategy
       <div className="minigame-container">
         <div className="minigame-title">No tienes que hacerlo solo</div>
         <p style={{ color: '#aaa', marginBottom: '20px', maxWidth: '500px' }}>
-          Busca a una persona de confianza en el escenario.
+          Buscar apoyo social es una estrategia efectiva. Selecciona a alguien de confianza en el escenario.
         </p>
 
         <div style={{
@@ -106,9 +106,9 @@ export const EstrategiaAlta: React.FC<EstrategiaAltaProps> = ({ onSelectStrategy
           justifyContent: 'center'
         }}>
           {[
-            { name: "Mamá/Papá", icon: "👨‍👩‍👦", valid: true },
-            { name: "Amigo", icon: "👫", valid: true },
-            { name: "Profesor", icon: "👨‍🏫", valid: true },
+            { name: "Familiar cercano", icon: "👨‍👩‍👦", valid: true },
+            { name: "Amigo cercano", icon: "👫", valid: true },
+            { name: "Profesional", icon: "👨‍🏫", valid: true },
             { name: "Desconocido", icon: "❓", valid: false },
           ].map((person, i) => (
             <button
@@ -128,8 +128,8 @@ export const EstrategiaAlta: React.FC<EstrategiaAltaProps> = ({ onSelectStrategy
 
         {step === 1 && (
           <div style={{ marginTop: '15px' }}>
-            <p style={{ color: '#ccc', fontSize: '1.2rem', fontStyle: 'italic', marginBottom: '15px' }}>
-              "¿Quieres contarme qué ocurrió?"
+            <p style={{ color: '#ccc', fontSize: '1.1rem', fontStyle: 'italic', marginBottom: '15px' }}>
+              "¿Quieres contarme qué está pasando?"
             </p>
             <div className="minigame-options" style={{ maxWidth: '400px', margin: '0 auto' }}>
               <button className="minigame-option" onClick={() => setStep(2)}>
@@ -144,12 +144,12 @@ export const EstrategiaAlta: React.FC<EstrategiaAltaProps> = ({ onSelectStrategy
 
         {step === 2 && (
           <div style={{ marginTop: '15px' }}>
-            <h3 style={{ color: '#4CAF50', marginBottom: '15px' }}>¡Bien hecho!</h3>
+            <h3 style={{ color: '#4CAF50', marginBottom: '15px' }}>Bien hecho</h3>
             <p style={{ color: '#ccc', marginBottom: '15px', maxWidth: '500px' }}>
-              Buscar apoyo puede ayudarte a expresar lo que sientes y afrontar situaciones difíciles.
+              Buscar apoyo no es un signo de debilidad. Expresar lo que sientes a alguien de confianza puede ayudarte a procesar la emoción y encontrar nuevas perspectivas.
             </p>
             <div style={{ fontSize: '3rem', marginBottom: '15px' }}>❤️</div>
-            <p style={{ color: '#FFD700', marginBottom: '15px' }}>Recompensa: Corazón de apoyo</p>
+            <p style={{ color: '#FFD700', marginBottom: '15px' }}>Herramienta obtenida: Corazón de apoyo</p>
             <button className="menu-button" onClick={() => onSelectStrategy('Corazón de apoyo')}>
               Continuar
             </button>
@@ -188,8 +188,8 @@ export const EstrategiaAlta: React.FC<EstrategiaAltaProps> = ({ onSelectStrategy
           <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
             <span style={{ fontSize: '2rem' }}>❤️</span>
             <div>
-              <div style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>No tienes que hacerlo solo</div>
-              <div style={{ color: '#aaa', fontSize: '0.9rem' }}>Búsqueda de apoyo social</div>
+              <div style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>Busca apoyo</div>
+              <div style={{ color: '#aaa', fontSize: '0.9rem' }}>Red de apoyo social</div>
             </div>
           </div>
         </button>

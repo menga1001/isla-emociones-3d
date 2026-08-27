@@ -5,14 +5,14 @@ interface EspejoEmocionalProps {
 }
 
 const manifestations = [
-  { id: 1, text: "Llorar o tener ganas de llorar", isSadness: true, icon: "😢" },
-  { id: 2, text: "Sentir el pecho pesado", isSadness: true, icon: "💔" },
-  { id: 3, text: "No tener ganas de hacer nada", isSadness: true, icon: "😔" },
-  { id: 4, text: "Pensar que las cosas no van a mejorar", isSadness: true, icon: "💭" },
-  { id: 5, text: "Querer estar solo", isSadness: true, icon: "🏠" },
-  { id: 6, text: "Sentir que no tienes energía", isSadness: true, icon: "🔋" },
-  { id: 7, text: "Sonreír y reír mucho", isSadness: false, icon: "😄" },
-  { id: 8, text: "Sentir mucha fuerza para hacer cosas", isSadness: false, icon: "💪" },
+  { id: 1, text: "Ganas de llorar o llanto", isSadness: true, icon: "😢" },
+  { id: 2, text: "Sensación de peso en el pecho", isSadness: true, icon: "💔" },
+  { id: 3, text: "Falta de motivación o energía", isSadness: true, icon: "😔" },
+  { id: 4, text: "Pensamientos de que no mejorará", isSadness: true, icon: "💭" },
+  { id: 5, text: "Deseo de aislarse o estar solo", isSadness: true, icon: "🏠" },
+  { id: 6, text: "Agotamiento sin razón física aparente", isSadness: true, icon: "🔋" },
+  { id: 7, text: "Risa frecuente y ganas de socializar", isSadness: false, icon: "😄" },
+  { id: 8, text: "Sensación de energía y ganas de actuar", isSadness: false, icon: "💪" },
 ];
 
 export const EspejoEmocional: React.FC<EspejoEmocionalProps> = ({ onComplete }) => {
@@ -22,11 +22,11 @@ export const EspejoEmocional: React.FC<EspejoEmocionalProps> = ({ onComplete }) 
   const handleInteraction = (manifestation: typeof manifestations[0]) => {
     if (manifestation.isSadness && !found.includes(manifestation.id)) {
       setFound([...found, manifestation.id]);
-      setFeedback(`¡Bien! "${manifestation.text}" es una manifestación de la tristeza.`);
+      setFeedback(`"${manifestation.text}" es una manifestación común de la tristeza.`);
     } else if (!manifestation.isSadness) {
-      setFeedback("Esa no es una manifestación de la tristeza. Intenta con otra.");
+      setFeedback("Esa no está directamente relacionada con la tristeza. Intenta con otra.");
     } else {
-      setFeedback("Ya encontraste esa manifestación.");
+      setFeedback("Ya identificaste esa manifestación.");
     }
 
     setTimeout(() => setFeedback(null), 2000);
@@ -38,10 +38,10 @@ export const EspejoEmocional: React.FC<EspejoEmocionalProps> = ({ onComplete }) 
 
   return (
     <div className="minigame-container">
-      <div className="minigame-title">El Espejo Emocional</div>
+      <div className="minigame-title">Manifestaciones de la tristeza</div>
 
       <p style={{ color: '#aaa', marginBottom: '20px', maxWidth: '500px' }}>
-        La tristeza puede manifestarse de diferentes maneras. Observa las señales y descubre cuáles pueden estar relacionadas con esta emoción.
+        La tristeza se manifiesta de distintas formas en el cuerpo y la mente. Identifica cuáles de estas señales están relacionadas con esta emoción.
       </p>
 
       <div style={{
@@ -74,7 +74,7 @@ export const EspejoEmocional: React.FC<EspejoEmocionalProps> = ({ onComplete }) 
       )}
 
       <div style={{ marginTop: '20px', color: '#aaa' }}>
-        Manifestaciones encontradas: {found.length} / 5
+        Señales encontradas: {found.length} / 5
       </div>
     </div>
   );
