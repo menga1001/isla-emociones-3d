@@ -39,7 +39,7 @@ const initialState: GameState = {
   currentLevel: 1,
   emotionalMeter: 90,
   kitEmocional: [],
-  unlockedIslands: ['enojo', 'tristeza'],
+  unlockedIslands: ['tristeza'],
   completedLevels: {},
   completedIslands: [],
   settings: {
